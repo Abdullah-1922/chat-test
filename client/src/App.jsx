@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { io } from "socket.io-client";
 const App = () => {
   const socket = useMemo(() => {
-    return io(`http://localhost:3001`);
+    return io(`https://chat-test-1-f5n2.onrender.com`);
   }, []);
   const [message, setMessage] = useState("");
   const [runningMessage, setRunningMessage] = useState([]);
