@@ -8,28 +8,31 @@ const App = () => {
   const [message, setMessage] = useState("");
   const [room, setRoom] = useState("");
   const [runningMessage, setRunningMessage] = useState([]);
+  const [socketId,setSocketId]=useState('')
   console.log(message);
   const handler = async (e) => {
     e.preventDefault();
 
-    socket.emit("message", message);
+    socket.emit("message", { message, room });
     console.log("message send");
     setMessage("");
     console.log(e.target.textField.value);
-    
+
     e.target.textField.value = "";
+    e.target.roomField.value = "";
   };
 
   useEffect(() => {
     socket.on("connect", () => {
       console.log("connected", socket.id);
+      setSocketId(socket.id)
     });
     socket.on("welcome", (s) => {
       console.log(s);
     });
     socket.on("message-receive", (data) => {
       console.log(data);
-      setRunningMessage((prev) => [...prev, data]);
+      setRunningMessage((prev) => [...prev, data.message]);
     });
 
     return () => {
@@ -54,6 +57,9 @@ const App = () => {
       </div>
       <Typography variant="h1" component={"div"} gutterBottom>
         welcome to Socket.io
+      </Typography>
+      <Typography variant="h4" component={"div"} gutterBottom>
+       Socket id : {socketId}
       </Typography>
       <form onSubmit={(e) => handler(e)}>
         <TextField
