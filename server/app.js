@@ -8,14 +8,14 @@ const app = express();
 const server = new createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://chat-test-nsuy.onrender.com",
+    origin: "*",
     methods: ["GET", "POST"],
     credentials: true,
   },
 });
 app.use(
   cors({
-    origin: "https://chat-test-nsuy.onrender.com",
+    origin: "*",
     methods: ["GET", "POST"],
     credentials: true,
   })

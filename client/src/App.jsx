@@ -3,9 +3,10 @@ import { useEffect, useMemo, useState } from "react";
 import { io } from "socket.io-client";
 const App = () => {
   const socket = useMemo(() => {
-    return io(`https://chat-test-1-f5n2.onrender.com`);
+    return io(`http://localhost:3001`);
   }, []);
   const [message, setMessage] = useState("");
+  const [room, setRoom] = useState("");
   const [runningMessage, setRunningMessage] = useState([]);
   console.log(message);
   const handler = async (e) => {
@@ -15,7 +16,7 @@ const App = () => {
     console.log("message send");
     setMessage("");
     console.log(e.target.textField.value);
-
+    
     e.target.textField.value = "";
   };
 
@@ -59,7 +60,14 @@ const App = () => {
           name="textField"
           onChange={(e) => setMessage(e.target.value)}
           id="outlined-basic"
-          label="Outlined"
+          label="Message"
+          variant="outlined"
+        />
+        <TextField
+          name="roomField"
+          onChange={(e) => setRoom(e.target.value)}
+          id="outlined-basic"
+          label="Room Field"
           variant="outlined"
         />
         <Button type="submit" variant="contained" color="primary">
