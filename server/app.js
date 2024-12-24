@@ -23,16 +23,20 @@ app.use(
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
-
+const users={};
 // io is full Circuit and the socket is Individual connection.
-io.on("connection", (socket) => {
+io.on("connection", (socket) => { 
   console.log("User connected", socket.id);
+  const userId= socket.handshake.query.userId
+  if(userId){
+    users[userId]=socket.id
+  }
   //   socket.emit("welcome",`Welcome to the server`)
   //   socket.broadcast.emit("welcome",` ${socket.id} joined the server `)
-
+  console.log(users);
   socket.on("message", (data) => {
     console.log(data);
-    io.emit("message-receive", data);
+    io.to(data.room).emit("message-receive", data);
   });
 
   socket.on("disconnect", () => {

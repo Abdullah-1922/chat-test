@@ -3,7 +3,11 @@ import { useEffect, useMemo, useState } from "react";
 import { io } from "socket.io-client";
 const App = () => {
   const socket = useMemo(() => {
-    return io(`http://localhost:3001`);
+    return io(`http://localhost:3001`,{
+      query:{
+        userId: (Math.random(6)*.9).toString().slice(2,10)
+      }
+    });
   }, []);
   const [message, setMessage] = useState("");
   const [room, setRoom] = useState("");
@@ -43,6 +47,7 @@ const App = () => {
   return (
     <Container maxWidth="sm">
       <div>
+        
         <h3>Messages:</h3>
         {runningMessage.length}
         <div>
